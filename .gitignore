@@ -2,6 +2,6 @@ prettierrc
 node_modules
 .env
 build
-idea
+.idea
 
 

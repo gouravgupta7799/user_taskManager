@@ -35,7 +35,7 @@ export const generateAlias = async (): Promise<string | undefined> => {
       alias = generateRandomAlias();
     }
   } catch (error) {
-    throwError('error in genereting uniqe alias',400);
+    throwError('error in genereting uniqe alias', 400);
   }
 };
 
