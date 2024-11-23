@@ -99,8 +99,9 @@ export class UserService {
       const updateResult = await this.userRepository
         .createQueryBuilder('user')
         .update()
-        .set({ email: userEmail, status: StatusEnums.ACTIVE })
-        .returning('*')
+        .set({ status: StatusEnums.ACTIVE })
+        .where('email = :email', { email: userEmail })
+        .returning('*') // Works for databases like PostgreSQL
         .execute();
 
       if (updateResult.affected === 1) {

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 // Initialize user service instance
 import { UserService } from '../services/user.service';
+import { generateToken, userAccess } from '../helpers/jwt.helper';
 
 const userServiceInstance = new UserService();
 
@@ -28,12 +29,15 @@ export const userControllers = {
 
   // User login functionality
   login: async (req: Request, res: Response) => {
-
     try {
       // Assuming signupUser expects some data from req.body
       const user = await userServiceInstance.loginUser(req.body, res);
-
-      const loginUser = {email:user?.email,name:user?.name}
+      const loginUser = {
+        email: user?.email,
+        name: user?.name,
+        status: user?.status,
+        token: await generateToken(user?.id, user?.email),
+      };
       console.log('User signed up successfully:', loginUser);
       res.status(200).json({ message: 'User login up successfully', user: loginUser });
     } catch (error: any) {
