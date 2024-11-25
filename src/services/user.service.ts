@@ -1,5 +1,6 @@
 import dbModuleInstance from '../db';
-import { StatusEnums, User } from '../entity/user.entity';
+import { StatusEnums } from '../helpers/enums/user.enums';
+import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import { throwError } from '../helpers/errorHelper';
 import { compareHash, generateAlias, generateHashPassword } from '../helpers/otherHelper';

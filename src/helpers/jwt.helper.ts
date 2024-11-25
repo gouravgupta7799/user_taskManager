@@ -31,7 +31,7 @@ export async function generateToken(
   }
 }
 
-export const userAccess = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const userAccess = async (req: AuthenticatedRequest, res: any, next: NextFunction) => {
   try {
     const token = req.header('Authorization');
     const secret = process.env.JWTPASSCODE as string;

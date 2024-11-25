@@ -11,8 +11,3 @@ services:
       POSTGRES_DB: taskManagement    # Replace with your desired database name
     ports:
       - "5432:5432" # Maps the container port to your local port
-    volumes:
-      - postgres_data:/var/lib/postgresql/data # Persists data even if the container is removed
-
-volumes:
-  postgres_data:

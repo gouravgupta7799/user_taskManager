@@ -8,7 +8,7 @@ const userServiceInstance = new UserService();
 
 export const userControllers = {
   // User sign-up functionality
-  signUp: async (req: Request, res: Response) => {
+  signUp: async (req: Request, res: Response): Promise<any> => {
     try {
       // Assuming signupUser expects some data from req.body
       const signUser = await userServiceInstance.signupUser(req.body, res);
@@ -28,7 +28,7 @@ export const userControllers = {
   },
 
   // User login functionality
-  login: async (req: Request, res: Response) => {
+  login: async (req: Request, res: Response): Promise<any> => {
     try {
       // Assuming signupUser expects some data from req.body
       const user = await userServiceInstance.loginUser(req.body, res);

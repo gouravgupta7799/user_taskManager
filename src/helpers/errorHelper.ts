@@ -12,6 +12,6 @@ class CustomError extends Error {
 }
 
 // Utility function to create and throw an error with a status code and message
-export const throwError = (message: string, statusCode: number | 400): never => {
+export const throwError = (message: string, statusCode: number = 400): never => {
   throw new CustomError(message, statusCode);
 };

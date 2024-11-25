@@ -1,11 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Basic } from './basic.entity';
 import { Task } from './task.entity';
-
-export enum StatusEnums {
-  ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
-}
+import { StatusEnums } from '../helpers/enums/user.enums';
 
 @Entity()
 export class User extends Basic {
@@ -43,6 +39,12 @@ export class User extends Basic {
     default: false,
   })
   isDeleted: boolean;
+
+  @Column({
+    nullable: false,
+    default: false,
+  })
+  isAdmin: boolean;
 
   // One User can have many Tasks
   @OneToMany(() => Task, (task) => task.user)

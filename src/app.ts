@@ -4,7 +4,9 @@ dotenv.config();
 import express from 'express';
 import { dbModuleInstance } from './db';
 import cors from 'cors';
-import userRoute from './routers/userRoute';
+import userRoute from './routers/user.route';
+import taskRoute from './routers/task.router';
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -17,7 +19,7 @@ async function startServer() {
 
   // Define routes and use controllers
   app.use('/user', userRoute);
-  // app.use('/tasks', taskRoute);
+  app.use('/tasks', taskRoute);
   // app.use('/projects', projectRoute);
   // Start your server after DB connection is successful
   app.listen(PORT, () => {

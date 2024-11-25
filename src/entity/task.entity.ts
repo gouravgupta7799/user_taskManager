@@ -1,23 +1,8 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Basic } from './basic.entity';
 import { User } from './user.entity';
 import { Project } from './project.entity';
-
-enum TaskStatus {
-  Pending = 'Pending',
-  InProgress = 'InProgress',
-  OnHold = 'OnHold',
-  Delayed = 'Delayed',
-  Completed = 'Completed',
-  Cancelled = 'Cancelled',
-  Failed = 'Failed',
-}
-
-enum TaskPriority {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
+import { TaskStatus, TaskPriority } from '../helpers/enums/task.enums';
 
 @Entity()
 export class Task extends Basic {
