@@ -1,0 +1,13 @@
+.banner {
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ddd;
+}
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+}
