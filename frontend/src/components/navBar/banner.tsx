@@ -6,7 +6,7 @@ const Banner: React.FC = () => {
     <div className={classess.banner}>
       <p>
         You are currently not logged in to the application. Existing Users{" "}
-        <a href="/" className={classess.link}>
+        <a href="/login" className={classess.link}>
           Login
         </a>{" "}
         / New Users{" "}

@@ -4,6 +4,7 @@ import Banner from "./components/navBar/banner";
 import TaskList, { Task } from "./components/task/TaskList";
 import AddTaskForm from "./components/task/AddTaskForm";
 import classes from "./app.module.css";
+import AuthForm from "./components/loginForm/login";
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -16,7 +17,7 @@ const App: React.FC = () => {
     taskMessage: string,
     description: string,
     dueDate: string,
-    completed:boolean
+    completed: boolean
   ) => {
     setTasks([
       ...tasks,
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       {banner ? <Banner /> : ""}
       <main className={classes.main}>
         <h2>Welcome to Task Management App</h2>
+        <AuthForm></AuthForm>
         <p>Manage your tasks efficiently and stay organized!</p>
 
         <div className={classes.taskSection}>
