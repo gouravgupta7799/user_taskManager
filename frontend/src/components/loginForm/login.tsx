@@ -12,6 +12,7 @@ const AuthForm: React.FC = () => {
     userName: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,13 +55,9 @@ const AuthForm: React.FC = () => {
   return (
     <div className={styles.container}>
       <form onSubmit={submitFormHandler} className={styles.form}>
-        <h1 className={styles.title}>
-          {isLogInForm ? "Login" : "Sign Up"}
-        </h1>
+        <h1 className={styles.title}>{isLogInForm ? "Login" : "Sign Up"}</h1>
         <p className={styles.subtitle}>
-          {isLogInForm
-            ? "Sign in to continue"
-            : "Create a new account"}
+          {isLogInForm ? "Sign in to continue" : "Create a new account"}
         </p>
 
         {!isLogInForm && (
@@ -127,16 +124,25 @@ const AuthForm: React.FC = () => {
             <label htmlFor="confirmPassword" className={styles.label}>
               Confirm Password
             </label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              className={styles.input}
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Confirm your password"
-              required
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                className={styles.input}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                required
+              />
+              <button
+                type="button"
+                className={styles.togglePassword}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? "👁️‍🗨️" : "🙈"}
+              </button>
+            </div>
           </div>
         )}
 
