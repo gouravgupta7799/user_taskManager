@@ -10,7 +10,7 @@ const Banner: React.FC = () => {
           Login
         </a>{" "}
         / New Users{" "}
-        <a href="/" className={classess.link}>
+        <a href="/signup" className={classess.link}>
           Register
         </a>{" "}
         with us.

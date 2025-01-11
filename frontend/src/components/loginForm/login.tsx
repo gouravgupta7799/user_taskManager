@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import styles from "./login.module.css";
+import { requestModule } from "../../helpers/request";
 
-const mainUrl = "http://localhost:4000/auth";
+const mainUrl = "http://localhost:4001/user/auth";
 
-const AuthForm: React.FC = () => {
-  const [isLogInForm, setIsLogInForm] = useState(true);
+type AuthFormProps = {
+  isLogedIn: boolean;
+};
+
+const AuthForm: React.FC<AuthFormProps> = ({ isLogedIn }) => {
+
+  const [isLogInForm, setIsLogInForm] = useState(isLogedIn);
   const [formData, setFormData] = useState({
-    email: "",
+    userEmail: "",
     password: "",
     confirmPassword: "",
     userName: "",
@@ -21,7 +27,7 @@ const AuthForm: React.FC = () => {
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { email, password, confirmPassword, userName } = formData;
+    const { userEmail, password, confirmPassword, userName } = formData;
 
     try {
       const url = isLogInForm ? `${mainUrl}/login` : `${mainUrl}/signup`;
@@ -30,15 +36,17 @@ const AuthForm: React.FC = () => {
         throw new Error("Passwords do not match.");
       }
 
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-          ...(isLogInForm ? {} : { confirmPassword, name: userName }),
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
+      let body = {
+        userEmail,
+        password,
+        ...(isLogInForm ? {} : { confirmPassword, userName: userName }),
+      }
+
+      let Headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      const response: any = await requestModule(url, "POST", body, Headers)
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -47,6 +55,8 @@ const AuthForm: React.FC = () => {
 
       const data = await response.json();
       console.log("Success:", data);
+      alert(`${(data as { message: string }).message}`);
+      localStorage.setItem('token', isLogInForm ? data.user.token : '')
     } catch (error) {
       alert(error);
     }
@@ -83,11 +93,11 @@ const AuthForm: React.FC = () => {
             Email
           </label>
           <input
-            id="email"
-            name="email"
+            id="userEmail"
+            name="userEmail"
             type="email"
             className={styles.input}
-            value={formData.email}
+            value={formData.userEmail}
             onChange={handleChange}
             placeholder="Enter your email"
             required

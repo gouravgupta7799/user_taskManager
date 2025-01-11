@@ -10,11 +10,11 @@ import { useSelector } from "react-redux";
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [form, setForm] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   let [banner, setBanner] = useState(false);
 
-  // const isLoggedIn = useSelector((state) => state.authRdx.isLoggedIn)
-
+  const isLoggedIn: boolean = useSelector((state: any) => state.authRdx.isLoggedIn);
+console.log(isLoggedIn)
   // Add a new task
   const addTask = (
     title: string,
@@ -38,40 +38,31 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Navbar onBanner={{ setBanner, banner }} />
-      {banner ? <Banner /> : ""}
+       <Navbar onBanner={{ setBanner, banner }} />
+      
       <BrowserRouter>
         <Routes>
-          {/*
-
-          <main className={classes.main}>
-            <h2>Welcome to Task Management App</h2>
-            {banner ? <AuthForm /> : ""}
-
-            <p>Manage your tasks efficiently and stay organized!</p>
-
-            <div className={classes.taskSection}>
-              {form ? (
-                <AddTaskForm onAddTask={addTask} />
-              ) : (
-                <p>Click the checkbox to add a task</p>
-              )}
-
-              <TaskList tasks={tasks} />
-            </div>
-          </main> */}
 
           <Route
             path="/"
-            // element={!isLoggedIn ? <AuthForm /> : <Welcome />}
-            element={banner ? <AuthForm /> : ""}
+            element={ banner && <Banner />}
           />
 
           <Route
-            path="/add"
-            // element={!isLoggedIn ? <AuthForm /> : <Welcome />}
-            element={<AddTaskForm onAddTask={addTask} />}
+            path="/login"
+            // element={!isLoggedIn ? <AuthForm isLogedIn={true}/> : <Welcome />}
+            element={ <AuthForm isLogedIn={true}/>}
           />
+         <Route
+            path="/signup"
+            element={<AuthForm isLogedIn={false} />}
+          />
+          <Route
+            path="/add"
+            element={!isLoggedIn ? <AuthForm isLogedIn={true}/>: <AddTaskForm onAddTask={addTask} />}
+            // element={<AddTaskForm onAddTask={addTask} />}
+          />
+
         </Routes>
       </BrowserRouter>
     </div>
