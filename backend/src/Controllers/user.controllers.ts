@@ -11,10 +11,21 @@ export const userControllers = {
   signUp: async (req: Request, res: Response): Promise<any> => {
     try {
       // Assuming signupUser expects some data from req.body
-      const signUser = await userServiceInstance.signupUser(req.body, res);
+      let signUser = await userServiceInstance.signupUser(req.body, res);
 
       console.log('User signed up successfully:', signUser);
-      res.status(200).json({ message: 'User signed up successfully', user: signUser });
+      let User = {
+        id: signUser.id,
+        name: signUser.name,
+        email: signUser.email,
+        alias: signUser.alias,
+        isDeleted: signUser.isDeleted,
+        createdAt: signUser.createdAt,
+        updatedAt: signUser.updatedAt,
+        status: signUser.status,
+        isAdmin: signUser.isAdmin
+      }
+      res.status(200).json({ message: 'User signed up successfully', user: User });
     } catch (error: any) {
       // Log the error with stack trace for debugging
       console.error('Error during user sign-up:', error);

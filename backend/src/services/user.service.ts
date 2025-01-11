@@ -15,14 +15,14 @@ export class UserService {
 
   // Signup functionality
   public async signupUser(
-    req: { userEmail: string; password: string; name: string },
+    req: { userEmail: string; password: string; userName: string },
     res: any
   ): Promise<User | undefined> {
     try {
-      const { userEmail, password, name } = req;
+      const { userEmail, password, userName } = req;
 
       // Check if userEmail, password, and name are provided
-      if (!userEmail || !password || !name) {
+      if (!userEmail || !password || !userName) {
         throwError('Email, password, and name are required', 400);
       }
 
@@ -51,7 +51,7 @@ export class UserService {
       const CreateUser = this.userRepository.create({
         email: userEmail,
         password: hashPassword,
-        name: name,
+        name: userName,
         alias: uniqeAlias,
       });
 
