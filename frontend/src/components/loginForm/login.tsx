@@ -5,12 +5,12 @@ import { requestModule } from "../../helpers/request";
 const mainUrl = "http://localhost:4001/user/auth";
 
 type AuthFormProps = {
-  isLogedIn: boolean;
+  isLogedInForm: boolean;
 };
 
-const AuthForm: React.FC<AuthFormProps> = ({ isLogedIn }) => {
+const AuthForm: React.FC<AuthFormProps> = ({ isLogedInForm }) => {
 
-  const [isLogInForm, setIsLogInForm] = useState(isLogedIn);
+  const [isLogInForm, setIsLogInForm] = useState(isLogedInForm);
   const [formData, setFormData] = useState({
     userEmail: "",
     password: "",

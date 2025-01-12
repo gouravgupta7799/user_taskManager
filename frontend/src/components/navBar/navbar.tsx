@@ -1,7 +1,9 @@
 import React from "react";
 import classes from "./navbar.module.css";
+import { useSelector } from "react-redux";
 
 const Navbar: React.FC<any> = ({ onBanner}) => {
+  const isLoggedIn: boolean = useSelector((state: any) => state.authRdx.isLoggedIn);
   return (
     <header className={classes["formHeader"]}>
       <div className={classes["logo"]}>
@@ -13,9 +15,9 @@ const Navbar: React.FC<any> = ({ onBanner}) => {
           My Saved Tasks
         </a>
 
-        <button className={classes["login-button"]} onClick={() => onBanner.setBanner(!onBanner.banner)}>
+       {!isLoggedIn? <button className={classes["login-button"]} onClick={() => onBanner.setBanner(!onBanner.banner)}>
           login/signup
-        </button>
+        </button>:''}
 
         <div className={classes["language"]}>
           <span>🌐 EN</span>
