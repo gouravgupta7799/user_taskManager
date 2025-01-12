@@ -1,43 +1,70 @@
 import React, { useState } from "react";
+import Navbar from "./components/navBar/navbar";
+import Banner from "./components/navBar/banner";
 import TaskList, { Task } from "./components/task/TaskList";
 import AddTaskForm from "./components/task/AddTaskForm";
+import classes from "./app.module.css";
+import AuthForm from "./components/loginForm/login";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [form, setForm] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  let [banner, setBanner] = useState(false);
+
+  const isLoggedIn: boolean = useSelector((state: any) => state.authRdx.isLoggedIn);
+console.log(isLoggedIn)
+  // Add a new task
   const addTask = (
     title: string,
     taskMessage: string,
     description: string,
     dueDate: string,
-    completed:boolean
+    completed: boolean
   ) => {
     setTasks([
       ...tasks,
       {
         id: Date.now(),
-        title: title,
-        completed: completed,
-        taskMessage: taskMessage,
-        description: description,
-        dueDate: dueDate,
+        title,
+        taskMessage,
+        description,
+        dueDate,
+        completed,
       },
     ]);
   };
+
   return (
-    <div>
-      <h1>User Task Management App</h1>
-      <div className="form-group checkbox-group">
-        <label>
-          <input
-            type="checkbox"
-            checked={form}
-            onChange={(e) => setForm(e.target.checked)}
+    <div className="App">
+       <Navbar onBanner={{ setBanner, banner }} />
+      
+      <BrowserRouter>
+        <Routes>
+
+          <Route
+            path="/"
+            element={ banner && <Banner />}
           />
-        </label>
-      </div>
-      {form ? <AddTaskForm onAddTask={addTask} /> : "add task"}
-      <TaskList tasks={tasks} />
+
+          <Route
+            path="/login"
+            // element={!isLoggedIn ? <AuthForm isLogedIn={true}/> : <Welcome />}
+            element={ <AuthForm isLogedIn={true}/>}
+          />
+         <Route
+            path="/signup"
+            element={<AuthForm isLogedIn={false} />}
+          />
+          <Route
+            path="/add"
+            element={!isLoggedIn ? <AuthForm isLogedIn={true}/>: <AddTaskForm onAddTask={addTask} />}
+            // element={<AddTaskForm onAddTask={addTask} />}
+          />
+
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
