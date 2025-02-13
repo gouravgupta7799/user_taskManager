@@ -4,6 +4,7 @@ import { User } from '../entity/user.entity';
 import { Repository } from 'typeorm';
 import { throwError } from '../helpers/errorHelper';
 import { compareHash, generateAlias, generateHashPassword } from '../helpers/otherHelper';
+import { emailRegex } from '../helpers/constant';
 
 // User service class
 export class UserService {
@@ -26,17 +27,13 @@ export class UserService {
         throwError('Email, password, and name are required', 400);
       }
 
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       const isValidEmail = emailRegex.test(userEmail);
 
       if (!isValidEmail) {
         throwError('Invalid Email', 400);
       }
       // Checking if user already exists
-      const userExisted = await this.userRepository
-        .createQueryBuilder('user')
-        .where('user.email = :email', { email: userEmail })
-        .getOne();
+      const userExisted = await this.userRepository.findOne({ where: { email: userEmail } });
 
       // If user already exists, throw an error
       if (userExisted) {
@@ -44,9 +41,11 @@ export class UserService {
       }
       // generete uniqe alias
       const uniqeAlias = await generateAlias();
+      if (!uniqeAlias) throwError("Failed to generate alias", 500);
 
       // generete hash password
       const hashPassword = await generateHashPassword(password);
+      if (!hashPassword) throwError("Failed to hash password", 500);
 
       const CreateUser = this.userRepository.create({
         email: userEmail,
@@ -82,18 +81,18 @@ export class UserService {
       });
 
       if (!userExisted) {
-        throw new Error(`User with this email does not exist: ${userEmail}`);
-      }
-
-      // Check if user is already active
-      if (userExisted.status === 'ACTIVE') {
-        return userExisted;
+        throwError(`User with this email does not exist: ${userEmail}`, 404);
       }
 
       // Validate password
       const isPasswordValid = await compareHash(password, userExisted.password);
       if (!isPasswordValid) {
         throwError('Password is incorrect', 403);
+      }
+
+      // Check if user is already active
+      if (userExisted.status === 'ACTIVE') {
+        return userExisted;
       }
 
       // Update user status to ACTIVE

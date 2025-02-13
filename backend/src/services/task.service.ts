@@ -100,10 +100,11 @@ export class TaskService {
       const id = req?.id;
 
       if (!user && !id) {
-        throwError('arguments required user id');
+        throwError('arguments required user id', 400);
       }
 
       if (!user) {
+        throwError("User information is missing from the request", 400);
       }
       let usersTask = this.userRepository
         .createQueryBuilder('user')

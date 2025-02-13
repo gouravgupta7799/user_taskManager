@@ -43,13 +43,16 @@ export const userControllers = {
     try {
       // Assuming signupUser expects some data from req.body
       const user = await userServiceInstance.loginUser(req.body, res);
+      if (!user) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
       const loginUser = {
         email: user?.email,
         name: user?.name,
         status: user?.status,
         token: await generateToken(user?.id, user?.email),
       };
-      console.log('User signed up successfully:', loginUser);
+      console.log('User logged in successfully:', loginUser);
       res.status(200).json({ message: 'User login up successfully', user: loginUser });
     } catch (error: any) {
       // Log the error with stack trace for debugging

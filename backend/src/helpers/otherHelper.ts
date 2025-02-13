@@ -5,6 +5,7 @@ import { throwError } from './errorHelper';
 
 let userRepository = dbModuleInstance.getRepository(User);
 
+// Generate unique alias
 export const generateAlias = async (): Promise<string | undefined> => {
   try {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Allowed characters
@@ -19,9 +20,11 @@ export const generateAlias = async (): Promise<string | undefined> => {
     };
 
     let alias = generateRandomAlias();
+    let attempts = 0;
+    const maxAttempts = 10; // Prevent infinite loop
 
     // Loop to ensure uniqueness
-    while (true) {
+    while (attempts < maxAttempts) {
       const checkAlias = await userRepository
         .createQueryBuilder('user')
         .where('user.alias = :alias', { alias })
@@ -33,26 +36,32 @@ export const generateAlias = async (): Promise<string | undefined> => {
 
       // Generate a new alias if the current one exists
       alias = generateRandomAlias();
+      attempts++;
     }
+    throwError('Failed to generate a unique alias after multiple attempts', 500);
   } catch (error) {
-    throwError('error in genereting uniqe alias', 400);
+    console.error("Error in generateAlias:", error);
+    throwError('Error in generating unique alias', 400);
   }
 };
 
+// Hash password
 export const generateHashPassword = async (password: string): Promise<string | undefined> => {
   try {
     const saltRounds = 5;
-
+    
     // Using bcrypt's promise-based approach to hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     console.log(hashedPassword);
     return hashedPassword; // Return the hashed password
   } catch (error) {
     // Throwing a generic error with a message and status code
-    throwError('Error hashing password', 400);
+    console.error("Error hashing password:", error);
+    throwError('Error hashing password', 500);
   }
 };
 
-export const compareHash = async (userPassword: string, password: string): Promise<Boolean> => {
-  return bcrypt.compare(userPassword, password);
+// Compare hashed password
+export const compareHash = async (plainPassword: string, hashedPassword: string): Promise<boolean> => {
+  return await bcrypt.compare(plainPassword, hashedPassword);
 };

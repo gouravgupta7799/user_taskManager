@@ -33,29 +33,31 @@ export const isAdmin = async (req: AuthenticatedRequest, res: any, next: NextFun
     const details = verify(token, secret) as { userId: string; userEmail: string }; // Verifies and decodes
 
     // Check if decoding was successful
-    if (!details || !details.userId || details.userEmail) {
+    if (!details || !details?.userId || !details?.userEmail) {
       return res.status(400).json({ error: 'Invalid token format' });
     }
 
     const { userId, userEmail } = details;
 
     // Find user in DB with email and userId
-    const user = await userRepository.createQueryBuilder('user').where('user.id=:userId AND user.email=:userEmail', { userId, userEmail }).getOne();
+    const user = await userRepository.createQueryBuilder('user').where('user.id = :userId AND user.email = :userEmail', { userId, userEmail }).getOne();
 
     if (!user) {
-      throw new Error('User not found, please log in again');
+      return res.status(401).json({ error: 'User not found, please log in again' });
     }
-    if(user.isAdmin === true){
-      throw new Error('User not Authorized, please log in with admin account');
+
+    // Check if user is an admin
+    if (!user.isAdmin) {
+      return res.status(403).json({ error: 'User not authorized, please log in with an admin account' });
     }
-    
+
     // // Attach user to the request object
     // req.user = user;
 
-    // Proceed to the next middleware or route handler
+     // Proceed to the next middleware or route handler
     next();
   } catch (err: any) {
-    console.error('Error in userAccess middleware:', err);
+    console.error('Error in isAdmin middleware:', err);
     if (err.name === 'JsonWebTokenError') {
       return res.status(401).json({ error: 'Invalid token' });
     }
