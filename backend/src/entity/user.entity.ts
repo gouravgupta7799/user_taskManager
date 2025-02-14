@@ -35,18 +35,18 @@ export class User extends Basic {
   alias: string;
 
   @Column({
-    nullable: true,
+    type: 'boolean',
     default: false,
   })
   isDeleted: boolean;
-
+  
   @Column({
-    nullable: false,
+    type: 'boolean',
     default: false,
   })
   isAdmin: boolean;
 
   // One User can have many Tasks
-  @OneToMany(() => Task, (task) => task.user)
+  @OneToMany(() => Task, (task) => task.project, { cascade: true, onDelete: 'CASCADE' })
   tasks: Task[];
 }

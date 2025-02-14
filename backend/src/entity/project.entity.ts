@@ -1,11 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Basic } from './basic.entity';
 import { Task } from './task.entity';
-
-enum ProjectStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-}
+import { ProjectStatus } from '../helpers/enums/project.enums';
 
 @Entity()
 export class Project extends Basic {

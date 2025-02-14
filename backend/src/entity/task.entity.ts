@@ -45,9 +45,10 @@ export class Task extends Basic {
 
   // Each Task is associated with one User
   @ManyToOne(() => User, (user) => user.tasks)
+  @JoinColumn({ name: 'userId' })
   user: User;
 
- 
+
   // Each Task is associated with one Project
   @ManyToOne(() => Project, (project) => project.tasks)
   project: Project; // Relating Task to Project

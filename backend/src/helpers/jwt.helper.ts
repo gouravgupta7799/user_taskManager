@@ -18,6 +18,10 @@ export async function generateToken(
     throwError('JWT secret key (JWTPASSCODE) is not defined in the environment variables.', 400);
   }
 
+  if (!id || !email) {
+    throwError("User ID and email are required for token generation.");
+  }
+
   try {
     const jwtToken = sign(
       { userId: id, userEmail: email },
@@ -27,6 +31,7 @@ export async function generateToken(
 
     return jwtToken;
   } catch (error) {
+    console.error("Failed to generate JWT:", error);
     throwError('Failed to generate JWT', 400);
   }
 }
