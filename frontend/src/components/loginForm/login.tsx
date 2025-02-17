@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styles from "./login.module.css";
 import { requestModule } from "../../helpers/request";
 
-const mainUrl = "http://localhost:4001/user/auth";
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+const mainUrl = `${backendUrl}/user/auth`;
 
 type AuthFormProps = {
   isLogedInForm: boolean;
@@ -30,23 +31,22 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogedInForm }) => {
     const { userEmail, password, confirmPassword, userName } = formData;
 
     try {
-      const url = isLogInForm ? `${mainUrl}/login` : `${mainUrl}/signup`;
-
       if (!isLogInForm && password !== confirmPassword) {
         throw new Error("Passwords do not match.");
       }
 
-      let body = {
-        userEmail,
-        password,
-        ...(isLogInForm ? {} : { confirmPassword, userName: userName }),
-      }
+      const url = isLogInForm ? `${mainUrl}/login` : `${mainUrl}/signup`;
+      let body = isLogInForm ? {
+        userEmail, password
+      } : {
+        userEmail, password, userName, confirmPassword
+      };
 
       let Headers: Record<string, string> = {
         "Content-Type": "application/json",
       };
 
-      const response: any = await requestModule(url, "POST", body, Headers)
+      const response: any = await requestModule(url, "POST", body, Headers);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -89,7 +89,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogedInForm }) => {
         )}
 
         <div className={styles.inputGroup}>
-          <label htmlFor="email" className={styles.label}>
+          <label htmlFor="userEmail" className={styles.label}>
             Email
           </label>
           <input

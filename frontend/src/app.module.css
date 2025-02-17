@@ -6,3 +6,35 @@
 .taskSection {
   margin-top: 20px;
 }
+
+/* Light Mode */
+.light {
+  background-color: #f5faff;
+  color: #003366;
+}
+
+/* Dark Mode */
+.dark {
+  background-color: #1e1e1e;
+  color: #ddd;
+}
+
+/* Dark Mode Toggle Button */
+.toggleBtn {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.toggleBtn:hover {
+  background: #0056b3;
+}
