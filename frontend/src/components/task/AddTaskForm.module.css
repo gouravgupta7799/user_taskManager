@@ -1,0 +1,155 @@
+/* ====== Global Reset for Smooth Transitions ====== */
+* {
+  transition: all 0.3s ease-in-out;
+}
+
+/* ====== Light Mode Styles ====== */
+.taskForm {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 25px;
+  background: linear-gradient(135deg, #f7f7f7, #ffffff);
+  /* Soft Gray Gradient Background */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Title */
+.formTitle {
+  font-size: 2rem;
+  text-align: center;
+  color: #6a5acd;
+  /* Elegant Soft Purple */
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Form Group (Input Fields) */
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+  color: #4a4a4a;
+  /* Darker Gray */
+  font-size: 1rem;
+}
+
+/* Input Fields */
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #6a5acd;
+  /* Soft Purple Border */
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Hover & Focus Effects */
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+  border-color: #4b0082;
+  /* Deep Purple Focus */
+  outline: none;
+  background-color: #f0e6ff;
+  box-shadow: 0 0 8px rgba(75, 0, 130, 0.3);
+}
+
+/* Textarea */
+.formGroup textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+/* Checkbox */
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkboxGroup label {
+  font-size: 1rem;
+  color: #4a4a4a;
+}
+
+/* Submit Button */
+.submitBtn {
+  width: 100%;
+  padding: 14px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(to right, #6a5acd, #4b0082);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.submitBtn:hover {
+  background: linear-gradient(to right, #4b0082, #3a006e);
+  transform: scale(1.03);
+}
+
+/* ====== DARK MODE (Full Black Background with Soft Purple Highlights) ====== */
+.dark {
+  background: #000000;
+  /* Full Black Background */
+  color: white;
+}
+
+.dark .taskForm {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Form Title in Dark Mode */
+.dark .formTitle {
+  color: #ffcc66;
+  /* Soft Gold for Contrast */
+}
+
+/* Labels in Dark Mode */
+.dark .formGroup label {
+  color: #ddd;
+}
+
+/* Inputs in Dark Mode */
+.dark .formGroup input,
+.dark .formGroup textarea,
+.dark .formGroup select {
+  background-color: #121212;
+  color: #ffffff;
+  border: 1px solid #b39ddb;
+  /* Soft Purple */
+}
+
+/* Input Focus in Dark Mode */
+.dark .formGroup input:focus,
+.dark .formGroup textarea:focus,
+.dark .formGroup select:focus {
+  background-color: #1e1e1e;
+  border-color: #b39ddb;
+  box-shadow: 0 0 8px rgba(179, 157, 219, 0.5);
+}
+
+/* Dark Mode Submit Button */
+.dark .submitBtn {
+  background: linear-gradient(to right, #b39ddb, #6a5acd);
+}
+
+.dark .submitBtn:hover {
+  background: linear-gradient(to right, #6a5acd, #4b0082);
+}
